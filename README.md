@@ -8,10 +8,10 @@ I am creating this small Spring Boot app that will return my artwork based on th
 
 Completed paintings -
 
-Budha - http://localhost:8080/image/Budha
-BabyKrishna - http://localhost:8080/image/BabyKrishna
-HomeSweetHome - http://localhost:8080/image/HomeSweetHome
-Gopuram - http://localhost:8080/image/Gopuram
+1. Budha - http://localhost:8080/image/Budha
+2. BabyKrishna - http://localhost:8080/image/BabyKrishna
+3. HomeSweetHome - http://localhost:8080/image/HomeSweetHome
+4. Gopuram - http://localhost:8080/image/Gopuram
 
 
 
