@@ -7,6 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.art.Service.ImageService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 
@@ -17,12 +21,13 @@ import java.nio.file.Paths;
 @RestController
 public class ImageController {
 
+    @Autowired(required=true)
+    private ImageService imageService;
+
     @GetMapping("/image/{paintingName}")
     public ResponseEntity<Resource> getImage(@PathVariable("paintingName") String paintingName) throws Exception {
-        // Path to the image file
-        Path path = Paths.get("src/main/resources/static/"+paintingName+".png");
-        // Load the resource
-        Resource resource = new UrlResource(path.toUri());
+  
+        Resource resource = imageService.getImage(paintingName);
         // Return ResponseEntity with image content type
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
@@ -44,16 +49,15 @@ public class ImageController {
 
     @GetMapping("/video/{paintingName}")
     public ResponseEntity<Resource> getVideo(@PathVariable("paintingName") String paintingName) throws Exception {
-        // Path to the image file
-        String path = "src/main/resources/static/"+paintingName+".MP4";
         // Load the resource
-        Resource resource = new FileSystemResource(path);
-
+        Resource resource = imageService.getVideo(paintingName);
+        // Return ResponseEntity with image content type
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.valueOf(Files.probeContentType(Path.of(path))));
+        String stringPath = imageService.getPathString(paintingName);
+        headers.setContentType(MediaType.valueOf(Files.probeContentType(Path.of(stringPath))));
         headers.setContentLength(resource.contentLength());
         // Return ResponseEntity with image content type
-        return ResponseEntity.ok()
+        return  ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
     }
